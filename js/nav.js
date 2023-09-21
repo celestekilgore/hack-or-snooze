@@ -27,12 +27,25 @@ function navLoginClick(evt) {
 
 $navLogin.on("click", navLoginClick);
 
-/** When a user first logins in, update the navbar to reflect that. */
 
+
+/** When a user first logins in, update the navbar to reflect that. */
 function updateNavOnLogin() {
   console.debug("updateNavOnLogin");
   $(".main-nav-links").show();
   $navLogin.hide();
   $navLogOut.show();
+
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/**
+ * when a user clicks the submit link, show the new story submit form
+ */
+function navSubmitNewStoryClick(evt) {
+  console.debug('navSubmitNewStoryClick', evt);
+
+  $newStorySubmitForm.show();
+}
+
+$linkToStorySubmit.on('click', navSubmitNewStoryClick);

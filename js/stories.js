@@ -50,3 +50,26 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+
+/**
+ * when a user submits the new story form, put that new story on the page
+ */
+async function addNewStoryToPage(evt) {
+  evt.preventDefault();
+  console.log("currentUser:", currentUser);
+  console.debug('addNewStoryToPage');
+
+  const author = $("#author").val();
+  console.log('author:', author);
+  const title = $("#title").val();
+  console.log("title:", title);
+  const url = $("#url").val();
+  console.log("url:", url);
+  // const aStory= new StoryList()
+
+  const story = await storyList.addStory(currentUser, { author, title, url });
+  console.log(story);
+}
+
+$newStorySubmitForm.on('submit', addNewStoryToPage);

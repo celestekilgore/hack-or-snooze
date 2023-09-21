@@ -75,18 +75,23 @@ class StoryList {
 
   async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
+    console.log("user inside of addStory:", user);
+    console.log("newStory:inside of addStory:", newStory);
     const response = await fetch(`${BASE_URL}/stories`, {
       method: "POST",
-      body: JSON.stringify({token:user.loginToken,
-        story:{author:newStory.author,title:newStory.title,url:newStory.url}})
-      });
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        token: user.loginToken,
+        story: { author: newStory.author, title: newStory.title, url: newStory.url }
+      })
+    });
     const storyData = await response.json();
-    console.log(storyData);
+    console.log("storyData:", storyData);
 
     const story = new Story(storyData.story);
     console.log(story);
     return story;
-      // storyId, title, author, url, username, createdAt);
+    // storyId, title, author, url, username, createdAt);
   }
 
 
