@@ -24,8 +24,8 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // FIXME: complete this function!
-    return "hostname.com";
+    const url = new URL(this.url);
+    return url.hostname;
   }
 }
 
@@ -47,6 +47,9 @@ class StoryList {
    *  - returns the StoryList instance.
    */
 
+  // have to call a static method on a class,
+  //no logic in static method should be specific to an instance-- static method
+  //is for generic info.
   static async getStories() {
     // Note presence of `static` keyword: this indicates that getStories is
     //  **not** an instance method. Rather, it is a method that is called on the
@@ -74,9 +77,7 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
-    console.log("user inside of addStory:", user);
-    console.log("newStory:inside of addStory:", newStory);
+
     const response = await fetch(`${BASE_URL}/stories`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -86,15 +87,11 @@ class StoryList {
       })
     });
     const storyData = await response.json();
-    console.log("storyData:", storyData);
 
     const story = new Story(storyData.story);
-    console.log(story);
+    this.stories.unshift(story); // keeping global story list up to data
     return story;
-    // storyId, title, author, url, username, createdAt);
   }
-
-
 }
 
 

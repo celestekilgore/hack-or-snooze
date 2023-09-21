@@ -52,24 +52,21 @@ function putStoriesOnPage() {
 }
 
 
-/**
- * when a user submits the new story form, put that new story on the page
- */
-async function addNewStoryToPage(evt) {
+/** when a user submits the new story form, put that new story on the page */
+async function submitNewStory(evt) {
   evt.preventDefault();
-  console.log("currentUser:", currentUser);
-  console.debug('addNewStoryToPage');
+  console.debug('submitNewStory');
 
-  const author = $("#author").val();
-  console.log('author:', author);
-  const title = $("#title").val();
-  console.log("title:", title);
-  const url = $("#url").val();
-  console.log("url:", url);
-  // const aStory= new StoryList()
+  const author = $("#story-author").val();
+  const title = $("#story-title").val();
+  const url = $("#story-url").val();
 
   const story = await storyList.addStory(currentUser, { author, title, url });
-  console.log(story);
+
+  const $storyHtml = generateStoryMarkup(story);
+  $allStoriesList.prepend($storyHtml);
+  $newStorySubmitForm.trigger("reset");
+  $newStorySubmitForm.hide();
 }
 
-$newStorySubmitForm.on('submit', addNewStoryToPage);
+$newStorySubmitForm.on('submit', submitNewStory);
