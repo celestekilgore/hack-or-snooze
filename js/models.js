@@ -27,6 +27,16 @@ class Story {
     const url = new URL(this.url);
     return url.hostname;
   }
+
+  static async getAStory(storyId) {
+    const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      });
+    const storyData = await response.json();
+    return storyData.story;
+  }
+
 }
 
 
@@ -89,7 +99,7 @@ class StoryList {
     const storyData = await response.json();
 
     const story = new Story(storyData.story);
-    this.stories.unshift(story); // keeping global story list up to data
+    this.stories.unshift(story); // keeping global story list up to date
     return story;
   }
 }
@@ -217,11 +227,13 @@ class User {
     }
   }
 
-  async addFavorite(story) {
-    // console.log("add fav:", this.favorites);
-    this.favorites.push(story);
+  /** Takes in a story, adds it to the currentUser's favorite list both locally
+   * and in the Hack or Snooze API*/
+  async addFavorite(favStory) {
+    this.favorites.push(favStory);
+    console.log(favStory);
 
-    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${favStory.storyId}`,
       {
         method: "POST",
         body: JSON.stringify({ 'token': `${this.loginToken}` }),
@@ -230,22 +242,24 @@ class User {
         }
       });
 
-    const favData = await response.json();
+    //const favData = await response.json();
+    //console.log(favData);
     // console.log("favData:", favData);
-
     // console.log("add fav after:", this.favorites);
   }
 
-  async removeFavorite(story) {
 
-    // console.log(story);
+  /** Takes in a story, removes it from currentUser's favorite list both locally
+   * and in the Hack or Snooze API */
+  async removeFavorite(storyToRemove) {
+
     for (let i = 0; i < this.favorites.length; i++) {
-      if (this.favorites[i] === story) {
+      if (this.favorites[i] === storyToRemove) {
         this.favorites.splice(i, 1);
       }
     }
 
-    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${storyToRemove.storyId}`,
       {
         method: "DELETE",
         body: JSON.stringify({ 'token': `${this.loginToken}` }),
@@ -254,8 +268,7 @@ class User {
         }
       });
 
-    const removedFavData = await response.json();
-
+    //const removedFavData = await response.json();
     // console.log("removedFavData:", removedFavData);
   }
 

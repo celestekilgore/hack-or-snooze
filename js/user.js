@@ -115,3 +115,38 @@ function updateUIOnUserLogin() {
 
   updateNavOnLogin();
 }
+
+/******************************************************************************
+ * Adding/removing favorites
+ */
+
+async function addOrRemoveFavs(evt) {
+  const $targetStar = $(evt.target);
+  const currentFavs = currentUser.favorites;
+  const targetStoryId = $targetStar.parent().attr("id");
+  const targetStory = await Story.getAStory(targetStoryId);
+
+  console.log("target story is", targetStory);
+
+  //console.log($targetStar.attr("class"));
+  if ($targetStar.hasClass("bi-star-fill")) {
+    console.log("this is running");
+    await currentUser.removeFavorite(targetStory);
+    $targetStar.removeClass("bi-star-fill");
+    $targetStar.addClass("bi-star");
+    console.log("remove fav", $targetStar.attr("class"));
+  } else if ($targetStar.hasClass("bi-star")) {
+    await currentUser.addFavorite(targetStory);
+    $targetStar.removeClass("bi-star");
+    $targetStar.addClass("bi-star-fill");
+    console.log("add fav", $targetStar);
+  }
+
+  // if star filled --> remove story and unfill, if not filled, add story and fill
+
+  //currentUser.addFavorite(targetStory);
+
+  //console.log(currentFavs);
+}
+
+$allStoriesList.on("click", ".bi", addOrRemoveFavs);
