@@ -25,16 +25,24 @@ class Story {
 
   getHostName() {
     const url = new URL(this.url);
+
     return url.hostname;
   }
 
   static async getAStory(storyId) {
     const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
-      });
+    });
     const storyData = await response.json();
-    return storyData.story;
+    console.log('our storyData:', storyData);
+    console.log('storyData Type:', typeof (storyData));
+
+    const story = new Story(storyData.story);
+
+    console.log('the instanced story', story);
+    console.log('check storyData', story instanceof Story);
+    // return storyData.story;
+    return story;
   }
 
 }

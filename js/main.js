@@ -21,6 +21,9 @@ const $linkToStorySubmit = $("#nav-submit-story");
 const $newStorySubmitButton = $("#new-story-submit-btn");
 
 const $navLinkToFavs = $("#nav-link-to-favorites");
+const $favStoriesContainer = $("#favorite-stories-container");
+const $allFavoriteStoriesList = $("#favorite-stories-list");
+
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
@@ -32,6 +35,7 @@ function hidePageComponents() {
     $allStoriesList,
     $loginForm,
     $signupForm,
+    $favStoriesContainer
 
   ];
   components.forEach(c => c.hide());

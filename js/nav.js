@@ -11,6 +11,9 @@ function navAllStories(evt) {
   evt.preventDefault();
   hidePageComponents();
   putStoriesOnPage();
+  $favStoriesContainer.hide();
+  $allFavoriteStoriesList.hide();
+
 }
 
 $body.on("click", "#nav-all", navAllStories);
@@ -23,6 +26,7 @@ function navLoginClick(evt) {
   hidePageComponents();
   $loginForm.show();
   $signupForm.show();
+
 }
 
 $navLogin.on("click", navLoginClick);
@@ -39,6 +43,7 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $linkToStorySubmit.show();
   $navLinkToFavs.show();
+  $favStoriesContainer.hide();
 
 
   $navUserProfile.text(`${currentUser.username}`).show();

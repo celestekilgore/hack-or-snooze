@@ -71,3 +71,35 @@ async function submitNewStory(evt) {
 }
 
 $newStorySubmitForm.on('submit', submitNewStory);
+
+/**
+ *
+ */
+
+function putFavoriteStoriesOnPage() {
+
+  console.debug("putFavoriteStoriesOnPage");
+
+  $allStoriesList.hide();
+
+  $allFavoriteStoriesList.empty();
+
+  if (currentUser.favorites.length === 0) {
+    $allFavoriteStoriesList.append('<p>No favorite added!</p>');
+  } else {
+    for (let story of currentUser.favorites) {
+
+      const $favStory = generateStoryMarkup(story);
+      console.log('child:', $favStory.first().removeClass('bi bi-star').addClass('bi-star-fill'));
+      // console.log($favStory.html());
+      $allFavoriteStoriesList.append($favStory);
+      $favStoriesContainer.append($allFavoriteStoriesList);
+
+    }
+  }
+  // console.log('value we check:', $allFavoriteStoriesList.html());
+  $allFavoriteStoriesList.show();
+  $favStoriesContainer.show();
+}
+
+$navLinkToFavs.on('click', putFavoriteStoriesOnPage);
