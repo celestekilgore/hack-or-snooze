@@ -216,4 +216,47 @@ class User {
       return null;
     }
   }
+
+  async addFavorite(story) {
+    // console.log("add fav:", this.favorites);
+    this.favorites.push(story);
+
+    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ 'token': `${this.loginToken}` }),
+        headers: {
+          "content-type": "application/json",
+        }
+      });
+
+    const favData = await response.json();
+    // console.log("favData:", favData);
+
+    // console.log("add fav after:", this.favorites);
+  }
+
+  async removeFavorite(story) {
+
+    // console.log(story);
+    for (let i = 0; i < this.favorites.length; i++) {
+      if (this.favorites[i] === story) {
+        this.favorites.splice(i, 1);
+      }
+    }
+
+    const response = await fetch(`${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      {
+        method: "DELETE",
+        body: JSON.stringify({ 'token': `${this.loginToken}` }),
+        headers: {
+          "content-type": "application/json",
+        }
+      });
+
+    const removedFavData = await response.json();
+
+    // console.log("removedFavData:", removedFavData);
+  }
+
 }
