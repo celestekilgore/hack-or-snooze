@@ -261,8 +261,9 @@ class User {
    * and in the Hack or Snooze API */
   async removeFavorite(storyToRemove) {
 
+      // could use filter to make this shorter, returns new arr, reassign faves
     for (let i = 0; i < this.favorites.length; i++) {
-      if (this.favorites[i] === storyToRemove) {
+      if (this.favorites[i].storyId === storyToRemove.storyId) {
         this.favorites.splice(i, 1);
       }
     }
@@ -281,3 +282,6 @@ class User {
   }
 
 }
+
+//TODO: function that takes in story and returns whether or not it is a fave
+//use some
